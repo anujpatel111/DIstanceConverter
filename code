@@ -1,0 +1,55 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class DistanceConverterApp extends Application {
+
+    private TextField distanceInputField;
+    private Label resultLabel;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Distance Converter");
+
+        // Input field
+        distanceInputField = new TextField();
+        distanceInputField.setPromptText("Enter distance");
+
+        // Labels
+        Label inputLabel = new Label("Enter distance in kilometers:");
+        resultLabel = new Label();
+
+        // Convert button
+        Button convertButton = new Button("Convert");
+        convertButton.setOnAction(e -> convert());
+
+        // Layout
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        vbox.getChildren().addAll(inputLabel, distanceInputField, convertButton, resultLabel);
+
+        Scene scene = new Scene(vbox, 300, 150);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
+
+    private void convert() {
+        try {
+            double kilometers = Double.parseDouble(distanceInputField.getText());
+            double miles = kilometers * 0.621371; // Conversion factor
+            resultLabel.setText(String.format("%.2f kilometers is %.2f miles", kilometers, miles));
+        } catch (NumberFormatException e) {
+            resultLabel.setText("Invalid input. Please enter a valid number.");
+        }
+    }
+}
